@@ -128,4 +128,38 @@ public class JdbcContext {
         return id;
 
     }
+
+    public User get(String sql, Object[] params) throws SQLException {
+        StatementStrategy statementStrategy = connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            for(int i = 0; i <params.length; i++)
+                preparedStatement.setObject(i+1, params[i]);
+
+            return preparedStatement;
+        };
+        return JdbcContextForGet(statementStrategy);
+    }
+
+    Long add(Object[] params, String sql) throws SQLException {
+        StatementStrategy statementStrategy = connection -> {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            for(int i = 0; i <params.length; i++)
+                preparedStatement.setObject(i+1, params[i]);
+
+            return preparedStatement;
+        };
+        return JdbcContextForAdd(statementStrategy);
+    }
+
+    void update(Object[] params, String sql) throws SQLException {
+        StatementStrategy statementStrategy = connection -> {
+            PreparedStatement preparedStatement = null;
+            preparedStatement = connection.prepareStatement(sql);
+            for (int i = 0; i < params.length; i++)
+                preparedStatement.setObject(i + 1, params[i]);
+
+            return preparedStatement;
+        };
+        JdbcContextForUpdate(statementStrategy);
+    }
 }
