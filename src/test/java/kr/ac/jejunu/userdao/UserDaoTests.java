@@ -11,12 +11,31 @@ public class UserDaoTests {
     @Test
     public void testGet() throws SQLException, ClassNotFoundException {
         Long id = 1l;
-        String name = "허윤호";
+        String name = "오현규";
         String password = "1234";
         UserDao userDao = new UserDao();
         User user = userDao.get(id);
         assertThat(user.getId(), is(id));
         assertThat(user.getName(), is(name));
         assertThat(user.getPassword(), is(password));
+    }
+    @Test
+    public void testAdd() throws SQLException, ClassNotFoundException {
+        UserDao userDao = new UserDao();
+        User user = new User();
+
+        String name = "오현규";
+        String password = "1234";
+
+
+        user.setName(name);
+        user.setPassword(password);
+
+        Long id = userDao.add(user);
+
+        User resultUser = userDao.get(id);
+        assertThat(resultUser.getId(), is(id));
+        assertThat(resultUser.getName(), is(name));
+        assertThat(resultUser.getPassword(), is(password));
     }
 }
