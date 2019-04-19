@@ -65,7 +65,7 @@ public class UserDaoTests {
         user.setName(changeName);
         user.setPassword(changePassword);
 
-        userDao.Update(user);
+        userDao.update(user);
 
         User resultUser = userDao.get(id);
         assertThat(resultUser.getId(), is(id));
@@ -86,7 +86,7 @@ public class UserDaoTests {
         Long id = userDao.add(user);
         user.setId(id);
 
-        userDao.Delete(id);
+        userDao.delete(id);
 
         user = userDao.get(id);
         assertThat(user, nullValue());
