@@ -9,6 +9,7 @@ import java.sql.SQLException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
 
 public class UserDaoTests {
     private UserDao userDao;
@@ -44,6 +45,51 @@ public class UserDaoTests {
         assertThat(resultUser.getId(), is(id));
         assertThat(resultUser.getName(), is(name));
         assertThat(resultUser.getPassword(), is(password));
+    }
+
+    @Test
+    public void testUpdate() throws SQLException, ClassNotFoundException {
+        User user = new User();
+        String name = "ㅎㄹㅎ=";
+        String password = "1234";
+
+        user.setName(name);
+        user.setPassword(password);
+
+        Long id = userDao.add(user);
+
+        user.setId(id);
+
+        String changeName = "그루트";
+        String changePassword = "8888";
+        user.setName(changeName);
+        user.setPassword(changePassword);
+
+        userDao.Update(user);
+
+        User resultUser = userDao.get(id);
+        assertThat(resultUser.getId(), is(id));
+        assertThat(resultUser.getName(), is(changeName));
+        assertThat(resultUser.getPassword(), is(changePassword));
+    }
+
+    @Test
+    public void testDelete() throws SQLException, ClassNotFoundException {
+        User user = new User();
+
+        String name = "ㅎㄹㅎ=";
+        String password = "1234";
+
+        user.setName(name);
+        user.setPassword(password);
+
+        Long id = userDao.add(user);
+        user.setId(id);
+
+        userDao.Delete(id);
+
+        user = userDao.get(id);
+        assertThat(user, nullValue());
     }
 
 }
